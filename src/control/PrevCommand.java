@@ -16,11 +16,11 @@ public class PrevCommand implements Command{
 
     @Override
     public void execute() {
-        imageDisplay.show(prev());
+        imageDisplay.display(prev());
     }
 
     private Image prev() {
-        int index = images.indexOf(imageDisplay.image());
+        int index = images.indexOf(imageDisplay.currentImage());
         return images.get((index-1+images.size()) % images.size());
     }
 }

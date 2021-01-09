@@ -3,6 +3,7 @@ package swing;
 
 import control.Command;
 import control.ExitCommand;
+import control.ImagePresenter;
 import control.NextCommand;
 import control.PrevCommand;
 import java.awt.BorderLayout;
@@ -27,17 +28,19 @@ public class Main  extends JFrame{
     private List<Image> images;
     private ImageDisplay imageDisplay;
     private final Map<String, Command> commands = new HashMap<>();
+    private final ImagePresenter imagePresenter;
     public Main() {
         this.setTitle("Image Viewer");
         this.setSize(800,600);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.getContentPane().add(imagePanel());
+        this.images = new FileImageLoader(new File("fotos")).load();
+        this.imageDisplay.display(images.get(0));
+        this.imagePresenter= new ImagePresenter(images,imageDisplay);
         this.add(toolbar(),BorderLayout.SOUTH);
     }
     private void execute() {
-      this.images = new FileImageLoader(new File("fotos")).load();
-      this.imageDisplay.show(images.get(0));
       this.commands.put("<",new PrevCommand(images,imageDisplay));
       this.commands.put(">",new NextCommand(images,imageDisplay));
       this.commands.put("exit",new ExitCommand());
